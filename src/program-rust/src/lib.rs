@@ -10,7 +10,7 @@ use solana_program::{
 
 /// Define the type of state stored in accounts
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
-pub struct GreetingAccount {
+pub struct VotingAccount {
     /// number of greetings
     pub counter: u32,
 }
@@ -24,7 +24,7 @@ pub fn process_instruction(
     accounts: &[AccountInfo], // The account to say hello to
     _instruction_data: &[u8], // Ignored, all helloworld instructions are hellos
 ) -> ProgramResult {
-    msg!("Hello World Rust program entrypoint");
+    msg!("Executing program entrypoint");
 
     // Iterating accounts is safer than indexing
     let accounts_iter = &mut accounts.iter();
@@ -34,16 +34,16 @@ pub fn process_instruction(
 
     // The account must be owned by the program in order to modify its data
     if account.owner != program_id {
-        msg!("Greeted account does not have the correct program id");
+        msg!("Voter does not have correct voter id");
         return Err(ProgramError::IncorrectProgramId);
     }
 
     // Increment and store the number of times the account has been greeted
-    let mut greeting_account = GreetingAccount::try_from_slice(&account.data.borrow())?;
-    greeting_account.counter += 1;
-    greeting_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
+    let mut voting_account = VotingAccount::try_from_slice(&account.data.borrow())?;
+    voting_account.counter += 1;
+    voting_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
 
-    msg!("Greeted {} time(s)!", greeting_account.counter);
+    msg!("Voted {} time(s)!", voting_account.counter);
 
     Ok(())
 }
@@ -77,21 +77,21 @@ mod test {
         let accounts = vec![account];
 
         assert_eq!(
-            GreetingAccount::try_from_slice(&accounts[0].data.borrow())
+            VotingAccount::try_from_slice(&accounts[0].data.borrow())
                 .unwrap()
                 .counter,
             0
         );
         process_instruction(&program_id, &accounts, &instruction_data).unwrap();
         assert_eq!(
-            GreetingAccount::try_from_slice(&accounts[0].data.borrow())
+            VotingAccount::try_from_slice(&accounts[0].data.borrow())
                 .unwrap()
                 .counter,
             1
         );
         process_instruction(&program_id, &accounts, &instruction_data).unwrap();
         assert_eq!(
-            GreetingAccount::try_from_slice(&accounts[0].data.borrow())
+            VotingAccount::try_from_slice(&accounts[0].data.borrow())
                 .unwrap()
                 .counter,
             2
