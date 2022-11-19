@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>VOTE KARO</title>
+    <style>
+      body {
+        background-image: url("{{ url_for('static', filename='assets/5.png') }}");
+        background-repeat: no-repeat;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="text-gray-600 body-font">
+      <div
+        class="container mx-auto flex flex-wrap flex-col md:flex-row items-center"
+      >
+        <nav
+          class="md:ml-auto flex flex-wrap fixed left-0 right-0 top-0 text-base bg-white opacity-90 h-20"
+        >
+          <a
+            class="flex title-font font-medium items-center text-gray-900 mt-auto mb-auto mr-auto ml-5"
+            id="home"
+            href="/"
+          >
+            <img
+              class="h-20 self-center"
+              src="{{ url_for('static', filename='assets/1e.png') }}"
+            />
+          </a>
+          <a
+            class="flex title-font font-medium items-center text-gray-900 mt-auto mb-auto mr-0"
+            id="home"
+          >
+            <img
+              class="self-center"
+              src="https://eci.gov.in/uploads/monthly_2022_06/logo.png.d0e6aee2d64193769bffbc6e720bbe96.png"
+            />
+          </a>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
+      <section class="text-gray-600 body-font">
+        <form method="POST">
+          <div
+            class="container mx-auto flex px-5 py-20 mt-20 md:flex-row flex-col items-center"
+          >
+            <div
+              class="bg-[#F5E8E4] lg:w-2/6 md:w-1/2 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
+            >
+              <h2 class="text-gray-900 text-lg font-medium title-font mb-5">
+                Voter ID
+              </h2>
+              <div class="relative mb-4">
+                <input
+                  type="text"
+                  id="voterid"
+                  name="voterid"
+                  placeholder="Enter Voter ID"
+                  class="w-full bg-white rounded border border-gray-300 focus:border-[#EABCAA] focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                />
+              </div>
+            </div>
+            <div
+              class="lg:flex-grow rounded-lg md:w-1/2 p-8 flex flex-col md:items-start md:text-left items-center text-center ml-10"
+            >
+              <ul
+                class="w-full text-sm font-medium text-black bg-white rounded-lg dark:bg-[#F5E8E4] dark:text-white"
+              >
+                <li
+                  class="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+                >
+                  <div class="flex items-center pl-3">
+                    <input
+                      id="A"
+                      type="radio"
+                      value=""
+                      name="A"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="A"
+                      class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-black"
+                      >Party A
+                    </label>
+                  </div>
+                </li>
+                <li
+                  class="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+                >
+                  <div class="flex items-center pl-3">
+                    <input
+                      id="B"
+                      type="radio"
+                      value=""
+                      name="B"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="B"
+                      class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-black"
+                      >Party B</label
+                    >
+                  </div>
+                </li>
+                <li class="w-full rounded-t-lg">
+                  <div class="flex items-center pl-3">
+                    <input
+                      id="C"
+                      type="radio"
+                      value=""
+                      name="C"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    />
+                    <label
+                      for="C"
+                      class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-black"
+                      >Party C</label
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="absolute right-12">
+              <button
+                class="w-24 text-black bg-[#F5E8E4] border-0 py-2 px-8 focus:outline-none hover:bg-[#545454] hover:text-white rounded text-lg"
+              >
+                Vote
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </body>
+</html>
