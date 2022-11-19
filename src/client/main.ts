@@ -10,14 +10,20 @@ import {
   reportGreetings,
 } from './hello_world';
 
+import { getPayer, getRpcUrl, createKeypairFromFile } from './utils';
+
 async function main() {
-  console.log("Let's say hello to a Solana account...");
+  console.log("Let's say vote to a Solana account...");
+  let payer = await getPayer();
+  
+  // let greetedPubkey = await 
 
   // Establish connection to the cluster
   await establishConnection();
 
+
   // Determine who pays for the fees
-  await establishPayer();
+  await establishPayer(payer);
 
   // Check if the program has been deployed
   await checkProgram();

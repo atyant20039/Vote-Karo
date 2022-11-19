@@ -23,17 +23,17 @@ import {getPayer, getRpcUrl, createKeypairFromFile} from './utils';
 let connection: Connection;
 
 /**
- * Keypair associated to the fees' payer
+ * Keypair associated to the Voter
  */
 let payer: Keypair;
 
 /**
- * Hello world's program id
+ * Voting program id
  */
 let programId: PublicKey;
 
 /**
- * The public key of the account we are saying hello to
+ * The public key of the account we are Voting to
  */
 let greetedPubkey: PublicKey;
 
@@ -96,19 +96,23 @@ export async function establishConnection(): Promise<void> {
 /**
  * Establish an account to pay for everything
  */
-export async function establishPayer(): Promise<void> {
+export async function establishPayer(voter: Keypair): Promise<void> {
   let fees = 0;
-  if (!payer) {
-    const {feeCalculator} = await connection.getRecentBlockhash();
+  payer = voter;
+  // if (!payer) {
+  //   const {feeCalculator} = await connection.getRecentBlockhash();
 
-    // Calculate the cost to fund the greeter account
-    fees += await connection.getMinimumBalanceForRentExemption(GREETING_SIZE);
+  //   // Calculate the cost to fund the greeter account
+  //   fees += await connection.getMinimumBalanceForRentExemption(GREETING_SIZE);
 
-    // Calculate the cost of sending transactions
-    fees += feeCalculator.lamportsPerSignature * 100; // wag
+  //   // Calculate the cost of sending transactions
+  //   fees += feeCalculator.lamportsPerSignature * 100; // wag
 
-    payer = await getPayer();
-  }
+  //   payer = await getPayer();
+  // }
+  const {feeCalculator} = await connection.getRecentBlockhash();
+  fees += await connection.getMinimumBalanceForRentExemption(GREETING_SIZE);
+  fees += feeCalculator.lamportsPerSignature * 100; // wag
 
   let lamports = await connection.getBalance(payer.publicKey);
   if (lamports < fees) {
@@ -129,6 +133,8 @@ export async function establishPayer(): Promise<void> {
     'SOL to pay for fees',
   );
 }
+
+
 
 /**
  * Check if the hello world BPF program has been deployed
@@ -161,7 +167,8 @@ export async function checkProgram(): Promise<void> {
   console.log(`Using program ${programId.toBase58()}`);
 
   // Derive the address (public key) of a greeting account from the program so that it's easy to find later.
-  const GREETING_SEED = 'hello';
+  const GREETING_SEED = 'Voted';
+  // greetedPubkey = party;
   greetedPubkey = await PublicKey.createWithSeed(
     payer.publicKey,
     GREETING_SEED,
@@ -174,7 +181,7 @@ export async function checkProgram(): Promise<void> {
     console.log(
       'Creating account',
       greetedPubkey.toBase58(),
-      'to say hello to',
+      'to Vote to',
     );
     const lamports = await connection.getMinimumBalanceForRentExemption(
       GREETING_SIZE,
@@ -199,7 +206,7 @@ export async function checkProgram(): Promise<void> {
  * Say hello
  */
 export async function sayHello(): Promise<void> {
-  console.log('Saying hello to', greetedPubkey.toBase58());
+  console.log('Voting to', greetedPubkey.toBase58());
   const instruction = new TransactionInstruction({
     keys: [{pubkey: greetedPubkey, isSigner: false, isWritable: true}],
     programId,
@@ -227,7 +234,7 @@ export async function reportGreetings(): Promise<void> {
   );
   console.log(
     greetedPubkey.toBase58(),
-    'has been greeted',
+    'has been Voted',
     greeting.counter,
     'time(s)',
   );
